@@ -16,6 +16,10 @@
         <servlet-name>ConsultarPontoColeta</servlet-name>
         <servlet-class>ConsultarPontoColeta</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConsultarPontoColetaNome</servlet-name>
+        <servlet-class>ConsultarPontoColetaNome</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IncluirCliente</servlet-name>
         <url-pattern>/IncluirCliente</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>ConsultarPontoColeta</servlet-name>
         <url-pattern>/ConsultarPontoColeta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConsultarPontoColetaNome</servlet-name>
+        <url-pattern>/ConsultarPontoColetaNome</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

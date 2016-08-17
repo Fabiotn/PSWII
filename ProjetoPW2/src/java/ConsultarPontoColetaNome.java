@@ -1,53 +1,57 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
-public class ConsultarPontoColeta extends HttpServlet {
+
+public class ConsultarPontoColetaNome extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
+            
             // Recebe campos do FORMULÁRIO
-            int sId = Integer.parseInt(request.getParameter("sIdForm"));
+            String sNomePontoColeta = request.getParameter("sNomePontoColetaForm");
                     
             // Criação da Sessão
             Session sessao = HibernateUtil.getSessionFactory().openSession();
-            // Criação do OBJETO Produto
-            PontoColeta pColeta;
-            pColeta = (PontoColeta) sessao.get(PontoColeta.class,sId);
+            // Criação do OBJETO Criteria
+            Criteria criteria = sessao.createCriteria(PontoColeta.class);
+            criteria.add(Restrictions.eq("nome", sNomePontoColeta));
+            
+            List <PontoColeta> resultado = criteria.list();
             
             // Mensagem para resultado da pesquisa
             String mensagem = "Ponto de Coleta localizado com sucesso!";
-            if (pColeta == null) {
+            if (resultado == null) {
                 mensagem = "Ponto de Coleta não localizado";
-            }
+            }            
             
-            /* TODO output your page here. You may use following sample code. */
+            // Apresentação do resultado
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Web II</title>");            
+            out.println("<title>Servlet ConsultarPontoColetaNome</title>");            
             out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + mensagem + "</h1>");
-            out.println("<p> Id: " + pColeta.getId() + "</p>");            
-            out.println("<p> Nome: " + pColeta.getNome() + "</p>");
-            out.println("<p> Nome Abreviado: " + pColeta.getNomeAbrv() + "</p>");
-            out.println("<p> Endereço Físico: " + pColeta.getEndereco() + "</p>");
-            out.println("<p> Endereço Lógico: " + pColeta.getEnderecoLgc() + "</p>");
-            out.println("<p> Latitude: " + pColeta.getLatitude() + "</p>");            
-            out.println("<p> Longitude: " + pColeta.getLongitude() + "</p>");            
-            out.println("</body>");
-            out.println("</html>");            
+            out.println("<body>");            
             
+            for (PontoColeta pc : resultado) {
+                out.println("<h1> Ponto de Coleta Encontrado: </h1>");
+                out.println("  Id: " + pc.getId() + "</br>");
+                out.println("  Nome: " + pc.getNome() + "</br>");
+                out.println("  Endereço: " + pc.getEndereco() + "</br>");        
+            }
 
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
