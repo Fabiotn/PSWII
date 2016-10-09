@@ -1,56 +1,36 @@
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
+import javax.servlet.http.HttpSession;
 
-
-public class ConsultarPontoColetaNome extends HttpServlet {
+public class ControleSessao1 extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            // Recebe campos do FORMULÁRIO
-            String sNomePontoColeta = request.getParameter("sNomePontoColetaForm");
-                    
-            // Criação da Sessão
-            Session sessao = HibernateUtil.getSessionFactory().openSession();
-            // Criação do OBJETO Criteria
-            Criteria criteria = sessao.createCriteria(PontoColeta.class);
-            criteria.add(Restrictions.eq("nome", sNomePontoColeta));
-            
-            List <PontoColeta> resultado = criteria.list();
-            
-            // Mensagem para resultado da pesquisa
-            String mensagem = "Ponto de Coleta localizado com sucesso!";
-            if (resultado.isEmpty()) {
-                mensagem = "Ponto de Coleta não localizado";
-            }            
-            
-            // Apresentação do resultado
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ConsultarPontoColetaNome</title>");            
+            out.println("<title>Servlet ControleSessao</title>");            
             out.println("</head>");
-            out.println("<body>");            
-            out.println("<h1>" + mensagem + "</h1>");
+            out.println("<body>");
             
-            for (PontoColeta pc : resultado) {
-                out.println("<h3> Ponto de Coleta Encontrado: </h3>");
-                out.println("  Id: " + pc.getId() + "</br>");
-                out.println("  Nome: " + pc.getNome() + "</br>");
-                out.println("  Endereço: " + pc.getEndereco() + "</br>");        
+            // Cria Sessão nova ou recupera uma Sessão existente
+            HttpSession sessao = request.getSession();
+            if (sessao.isNew()) {
+                out.println("<h1> Bem vindo! Essa é sua primeira visita</h1>");    
+            } else {
+                out.println("<h1> Bem vindo de volta</h1>");
             }
-
+            
+            // Criação de variável na sessão
+            sessao.setAttribute("teste", "batata");
+                        
             out.println("</body>");
             out.println("</html>");
         }

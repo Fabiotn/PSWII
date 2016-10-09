@@ -20,6 +20,34 @@
         <servlet-name>ConsultarPontoColetaNome</servlet-name>
         <servlet-class>ConsultarPontoColetaNome</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ControleSessao1</servlet-name>
+        <servlet-class>ControleSessao1</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControleSessao2</servlet-name>
+        <servlet-class>ControleSessao2</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControleSessao4</servlet-name>
+        <servlet-class>ControleSessao4</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PedidoSpolletoMolho</servlet-name>
+        <servlet-class>PedidoSpolletoMolho</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControleSessao3</servlet-name>
+        <servlet-class>ControleSessao3</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PedidoSpolletoMassa</servlet-name>
+        <servlet-class>PedidoSpolletoMassa</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PedidoSpoletoIngredientes</servlet-name>
+        <servlet-class>PedidoSpoletoIngredientes</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IncluirCliente</servlet-name>
         <url-pattern>/IncluirCliente</url-pattern>
@@ -40,6 +68,34 @@
         <servlet-name>ConsultarPontoColetaNome</servlet-name>
         <url-pattern>/ConsultarPontoColetaNome</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControleSessao1</servlet-name>
+        <url-pattern>/ControleSessao1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControleSessao2</servlet-name>
+        <url-pattern>/ControleSessao2</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControleSessao4</servlet-name>
+        <url-pattern>/ControleSessao4</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PedidoSpolletoMolho</servlet-name>
+        <url-pattern>/PedidoSpolletoMolho</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControleSessao3</servlet-name>
+        <url-pattern>/ControleSessao3</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PedidoSpolletoMassa</servlet-name>
+        <url-pattern>/PedidoSpolletoMassa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PedidoSpoletoIngredientes</servlet-name>
+        <url-pattern>/PedidoSpoletoIngredientes</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -48,4 +104,65 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>Restrição1</display-name>
+        <web-resource-collection>
+            <web-resource-name>COMUM</web-resource-name>
+            <description/>
+            <url-pattern>/PedidoSpolletoMolho.jsp</url-pattern>
+            <url-pattern>/PedidoSpolletoMassa.jsp</url-pattern>
+            <url-pattern>/PedidoSpolletoIngredientes.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Usuario COMUM</description>
+            <role-name>COMUM</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Restrição2</display-name>
+        <web-resource-collection>
+            <web-resource-name>ESPECIAL</web-resource-name>
+            <description/>
+            <url-pattern>/PedidoSpolletoMolho.jsp</url-pattern>
+            <url-pattern>/PedidoSpolletoMassa.jsp</url-pattern>
+            <url-pattern>/PedidoSpolletoIngredientes.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Usuario ESPECIAL</description>
+            <role-name>ESPECIAL</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Restrição3</display-name>
+        <web-resource-collection>
+            <web-resource-name>PREMIUM</web-resource-name>
+            <description/>
+            <url-pattern>/PedidoSpolletoMolho.jsp</url-pattern>
+            <url-pattern>/PedidoSpolletoMassa.jsp</url-pattern>
+            <url-pattern>/PedidoSpolletoIngredientes.jsp</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Usuario PREMIUM</description>
+            <role-name>PREMIUM</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/PaginaLogin.html</form-login-page>
+            <form-error-page>/PaginaErro.html</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>Clientes com o papel comum NÃO escolhem ingredientes no pedido de uma massa no Spoleto.</description>
+        <role-name>COMUM</role-name>
+    </security-role>
+    <security-role>
+        <description>Clientes com o papel comum estão limitados a 5 ingredientes no pedido de uma massa no Spoleto.</description>
+        <role-name>ESPECIAL</role-name>
+    </security-role>
+    <security-role>
+        <description>Clientes com o papel comum estão limitados a 10 ingredientes no pedido de uma massa no Spoleto.</description>
+        <role-name>PREMIUM</role-name>
+    </security-role>
 </web-app>
